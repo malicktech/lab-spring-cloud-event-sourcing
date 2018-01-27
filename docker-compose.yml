@@ -1,15 +1,16 @@
 config-service:
-  image: kbastani/config-service
+  mem_limit: 1073741824
+  image: citizendiop/config-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
   ports:
    - 8888:8888
 hystrix-dashboard:
-  image: kbastani/hystrix-dashboard
+  image: citizendiop/hystrix-dashboard
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
   ports:
    - 6161:6161
 mysql:
@@ -34,7 +35,8 @@ redis:
   ports:
    - 6379:6379
 user-service:
-  image: kbastani/user-service
+  mem_limit: 1073741824
+  image: citizendiop/user-service
   ports:
    - 8181:8181
   links:
@@ -43,16 +45,17 @@ user-service:
    - config-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
 discovery-service:
-  image: kbastani/discovery-service
+  mem_limit: 1073741824
+  image: citizendiop/discovery-service
   ports:
-   - 8761:8761
+   - 8768:8761
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
 edge-service:
-  image: kbastani/edge-service
+  image: citizendiop/edge-service
   ports:
    - 9999:9999
   links:
@@ -61,9 +64,10 @@ edge-service:
    - config-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
 account-service:
-  image: kbastani/account-service
+  mem_limit: 1073741824
+  image: citizendiop/account-service
   links:
    - user-service
    - discovery-service
@@ -71,18 +75,21 @@ account-service:
    - mysql
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
 inventory-service:
-  image: kbastani/inventory-service
+  mem_limit: 1073741824
+  image: citizendiop/inventory-service
   links:
    - neo4j
    - discovery-service
    - config-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
+   - JAVA_OPTS=-Xmx512m -Xms256m
 order-service:
-  image: kbastani/order-service
+  mem_limit: 1073741824
+  image: citizendiop/order-service
   links:
    - mongo
    - discovery-service
@@ -90,9 +97,11 @@ order-service:
    - user-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
+   - JAVA_OPTS=-Xmx512m -Xms256m
 catalog-service:
-  image: kbastani/catalog-service
+  mem_limit: 1073741824
+  image: citizendiop/catalog-service
   links:
    - redis
    - mysql
@@ -100,9 +109,10 @@ catalog-service:
    - config-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
+   - JAVA_OPTS=-Xmx512m -Xms256m
 shopping-cart-service:
-  image: kbastani/shopping-cart-service
+  image: citizendiop/shopping-cart-service
   links:
    - mysql
    - discovery-service
@@ -110,9 +120,9 @@ shopping-cart-service:
    - user-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
 online-store-web:
-  image: kbastani/online-store-web
+  image: citizendiop/online-store-web
   ports:
    - 8787:8787
   links:
@@ -122,4 +132,4 @@ online-store-web:
    - edge-service
   environment:
    - SPRING_PROFILES_ACTIVE=docker
-   - DOCKER_IP=$DOCKER_IP
+   # - DOCKER_IP=$DOCKER_IP
