@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/intellij,java,maven
 
+# custom
+spring-cloud-event-sourcing-config
 
 ### Eclipse ###
 .project

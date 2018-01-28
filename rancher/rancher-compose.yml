@@ -1,0 +1,47 @@
+version: '2'
+services:
+  mongo:
+    scale: 1
+    start_on_create: true
+  config-service:
+    scale: 1
+    start_on_create: true
+  catalog-service:
+    scale: 1
+    start_on_create: true
+  user-service:
+    scale: 1
+    start_on_create: true
+  redis:
+    scale: 1
+    start_on_create: true
+  discovery-service:
+    scale: 1
+    start_on_create: true
+  shopping-cart-service:
+    scale: 1
+    start_on_create: true
+  neo4j:
+    scale: 1
+    start_on_create: true
+  inventory-service:
+    scale: 1
+    start_on_create: true
+  edge-service:
+    scale: 1
+    start_on_create: true
+  hystrix-dashboard:
+    scale: 1
+    start_on_create: true
+  mysql:
+    scale: 1
+    start_on_create: true
+  order-service:
+    scale: 1
+    start_on_create: true
+  online-store-web:
+    scale: 1
+    start_on_create: true
+  account-service:
+    scale: 1
+    start_on_create: true

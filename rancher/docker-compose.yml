@@ -1,0 +1,214 @@
+version: '2'
+services:
+  mongo:
+    mem_limit: 268435456
+    image: mongo:3.3
+    ports:
+    - 27017:27017/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  config-service:
+    mem_limit: 1073741824
+    image: citizendiop/config-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xmx512m -Xms256m
+      APP_SLEEP: '0'
+    ports:
+    - 8888:8888/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  catalog-service:
+    mem_limit: 805306368
+    image: citizendiop/catalog-service:latest
+    environment:
+      JAVA_OPTS: -Xmx512m -Xms256m
+      SPRING_PROFILES_ACTIVE: docker
+      APP_SLEEP: '5'
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/dev?useUnicode=true&characterEncoding=utf8&useSSL=false
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: '6379'
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - redis:redis
+    - mysql:mysql
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - redis:redis
+    - mysql:mysql
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps1
+  user-service:
+    mem_limit: 1073741824
+    image: citizendiop/user-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://51.255.204.161:3306:3306/test_even_source?useUnicode=true&characterEncoding=utf8&useSSL=false
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    ports:
+    - 8181:8181/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  redis:
+    image: redis:3.0
+    ports:
+    - 6379:6379/tcp
+  discovery-service:
+    mem_limit: 805306368
+    image: citizendiop/discovery-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xmx512m -Xms256m
+      APP_SLEEP: '5'
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+    ports:
+    - 8761:8761/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  shopping-cart-service:
+    image: citizendiop/shopping-cart-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/dev?useUnicode=true&characterEncoding=utf8&useSSL=false
+      JAVA_OPTS: -Xmx512m -Xms256m
+      APP_SLEEP: '10'
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    - user-service:user-service
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    - user-service:user-service
+    labels:
+      io.rancher.container.pull_image: always
+  neo4j:
+    image: neo4j:2.3
+    environment:
+      NEO4J_AUTH: none
+    ports:
+    - 7474:7474/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  inventory-service:
+    mem_limit: 805306368
+    image: citizendiop/inventory-service
+    environment:
+      JAVA_OPTS: -Xmx512m -Xms256m
+      SPRING_PROFILES_ACTIVE: docker
+      APP_SLEEP: '10'
+    links:
+    - discovery-service:discovery-service
+    - neo4j:neo4j
+    - config-service:config-service
+    - discovery-service:discovery-service
+    - neo4j:neo4j
+    - config-service:config-service
+  edge-service:
+    image: citizendiop/edge-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xmx512m -Xms256m
+      APP_SLEEP: '10'
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - user-service:user-service
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - user-service:user-service
+    ports:
+    - 9999:9999/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  hystrix-dashboard:
+    image: citizendiop/hystrix-dashboard
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+    - 6161:6161/tcp
+  mysql:
+    mem_limit: 268435456
+    image: mysql:5.7.20
+    environment:
+      MYSQL_DATABASE: dev
+      MYSQL_ROOT_PASSWORD: dbpass
+    command:
+    - mysqld
+    - --lower_case_table_names=1
+    - --skip-ssl
+    - --character_set_server=utf8
+    - --explicit_defaults_for_timestamp
+    labels:
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  order-service:
+    mem_limit: 1073741824
+    image: citizendiop/order-service
+    environment:
+      JAVA_OPTS: -Xmx512m -Xms256m
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mongo:mongo
+    - user-service:user-service
+  online-store-web:
+    mem_limit: 536870912
+    image: citizendiop/online-store-web
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xmx512m -Xms256m
+      APP_SLEEP: '5'
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - edge-service:edge-service
+    - user-service:user-service
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - edge-service:edge-service
+    - user-service:user-service
+    ports:
+    - 8787:8787/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: host=vps2
+  account-service:
+    mem_limit: 1073741824
+    image: citizendiop/account-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/dev?useUnicode=true&characterEncoding=utf8&useSSL=false
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+    links:
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    - user-service:user-service
+    - discovery-service:discovery-service
+    - config-service:config-service
+    - mysql:mysql
+    - user-service:user-service
+    labels:
+      io.rancher.scheduler.affinity:host_label: host=vps2
