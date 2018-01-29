@@ -1,5 +1,3 @@
-
-
 # ressource
 
 * docker maven
@@ -11,7 +9,15 @@ https://github.com/kbastani/spring-cloud-event-sourcing-example
 
 
 # Development > manuel
-mvn -Pdevelop
+mvn -Pdev
+
+* start
+mvn clean spring-boot:run -Pdev  || ./mvnw spring-boot:run
+
+#clena 
+
+mvn dependency:purge-local-repository
+mvn dependency:purge-local-repository -DactTransitively=false -DreResolve=false
 
 # Developement > manual start
 
