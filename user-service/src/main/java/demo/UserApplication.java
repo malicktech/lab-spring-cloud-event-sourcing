@@ -1,14 +1,19 @@
 package demo;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
-import org.springframework.stereotype.Component;
+
+import demo.config.DefaultProfileUtil;
 
 /**
  * The {@link UserApplication} is a cloud-native Spring Boot application that manages
@@ -23,16 +28,34 @@ import org.springframework.stereotype.Component;
 @EnableEurekaClient
 @EnableHystrix
 public class UserApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
+	private static final Logger log = LoggerFactory.getLogger(UserApplication.class);
+
+    private final Environment env;
+
+    public UserApplication(Environment env) {
+        this.env = env;
     }
-
-    @Component
-    public static class CustomizedRestMvcConfiguration extends RepositoryRestConfigurerAdapter {
-
-        @Override
-        public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-            config.setBasePath("/api");
+    
+    public static void main(String[] args) throws UnknownHostException {        
+        SpringApplication app = new SpringApplication(UserApplication.class);
+        DefaultProfileUtil.addDefaultProfile(app);
+        Environment env = app.run(args).getEnvironment();
+        String protocol = "http";
+        if (env.getProperty("server.ssl.key-store") != null) {
+            protocol = "https";
         }
+        
+        log.info("\n----------------------------------------------------------\n\t" +
+                "Application '{}' is running! Access URLs:\n\t" +
+                "Local: \t\t{}://localhost:{}\n\t" +
+                "External: \t{}://{}:{}\n\t" +
+                "Profile(s): \t{}\n----------------------------------------------------------",
+            env.getProperty("spring.application.name"),
+            protocol,
+            env.getProperty("server.port"),
+            protocol,
+            InetAddress.getLocalHost().getHostAddress(),
+            env.getProperty("server.port"),
+            env.getActiveProfiles());
     }
 }
