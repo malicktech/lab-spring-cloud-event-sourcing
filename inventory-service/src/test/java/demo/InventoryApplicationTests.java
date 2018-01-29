@@ -1,5 +1,26 @@
 package demo;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import demo.address.Address;
 import demo.address.AddressRepository;
 import demo.catalog.Catalog;
@@ -14,27 +35,9 @@ import demo.shipment.ShipmentRepository;
 import demo.shipment.ShipmentStatus;
 import demo.warehouse.Warehouse;
 import demo.warehouse.WarehouseRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.neo4j.config.Neo4jConfiguration;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {InventoryApplication.class})
+@SpringBootTest(classes = {InventoryApplication.class})
 @ActiveProfiles(profiles = "test")
 public class InventoryApplicationTests {
 
@@ -59,18 +62,16 @@ public class InventoryApplicationTests {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    @Autowired
-    private Neo4jConfiguration neo4jConfiguration;
 
     @Before
     public void setup() {
-        try {
-            neo4jConfiguration.getSession().query(
-                    "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r;", new HashMap<>())
-                    .queryResults();
-        } catch (Exception e) {
-            neo4jConnection = false;
-        }
+//        try {
+//            neo4jConfiguration.getSession().query(
+//                    "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r;", new HashMap<>())
+//                    .queryResults();
+//        } catch (Exception e) {
+//            neo4jConnection = false;
+//        }
     }
 
     @Test

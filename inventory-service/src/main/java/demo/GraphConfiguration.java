@@ -11,33 +11,17 @@ import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.neo4j.config.Neo4jConfiguration;
-import org.springframework.data.neo4j.server.Neo4jServer;
-import org.springframework.data.neo4j.server.RemoteServer;
+import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Configuration
-class GraphConfiguration extends Neo4jConfiguration {
-
-    @Autowired
-    private Neo4jProperties properties;
+//@Configuration
+class GraphConfiguration {
 
     @Bean
-    public Neo4jServer neo4jServer() {
-        String uri = this.properties.getUri();
-        String pw = this.properties.getPassword();
-        String user = this.properties.getUsername();
-        if (StringUtils.hasText(pw) && StringUtils.hasText(user)) {
-            return new RemoteServer(uri, user, pw);
-        }
-        return new RemoteServer(uri);
-    }
-
-    @Bean
-    public SessionFactory getSessionFactory() {
+    public SessionFactory sessionFactory() {
         // we need to specify which packages Neo4j should scan
         // we'll use classes in each package to avoid brittleness
         Class<?>[] packageClasses = {
@@ -56,9 +40,10 @@ class GraphConfiguration extends Neo4jConfiguration {
                         .toArray(new String[packageClasses.length]);
         return new SessionFactory(packageNames);
     }
-
+    
     @Bean
-    public Session getSession() throws Exception {
-        return super.getSession();
+    public Neo4jTransactionManager transactionManager() throws Exception {
+        return new Neo4jTransactionManager(sessionFactory());
     }
+
 }

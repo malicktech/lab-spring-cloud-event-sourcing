@@ -1,8 +1,10 @@
 package demo;
 
-import demo.catalog.Catalog;
-import demo.config.DatabaseInitializer;
-import demo.product.Product;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,13 +12,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import demo.config.DatabaseInitializer;
+import demo.config.DefaultProfileUtil;
 
 @SpringBootApplication
 @EnableNeo4jRepositories
@@ -25,34 +27,36 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 @EnableHystrix
 public class InventoryApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(InventoryApplication.class, args);
-    }
+	private static final Logger log = LoggerFactory.getLogger(InventoryApplication.class);
 
-    @Configuration
-    protected static class RepositoryMvcConfiguration extends RepositoryRestConfigurerAdapter {
-        @Override
-        public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-            config.exposeIdsFor(Catalog.class, Product.class);
+    private final Environment env;
+
+    public InventoryApplication(Environment env) {
+        this.env = env;
+    }
+    
+    public static void main(String[] args) throws UnknownHostException {        
+        SpringApplication app = new SpringApplication(InventoryApplication.class);
+        DefaultProfileUtil.addDefaultProfile(app);
+        Environment env = app.run(args).getEnvironment();
+        String protocol = "http";
+        if (env.getProperty("server.ssl.key-store") != null) {
+            protocol = "https";
         }
+        
+        log.info("\n----------------------------------------------------------\n\t" +
+                "Application '{}' is running! Access URLs:\n\t" +
+                "Local: \t\t{}://localhost:{}\n\t" +
+                "External: \t{}://{}:{}\n\t" +
+                "Profile(s): \t{}\n----------------------------------------------------------",
+            env.getProperty("spring.application.name"),
+            protocol,
+            env.getProperty("server.port"),
+            protocol,
+            InetAddress.getLocalHost().getHostAddress(),
+            env.getProperty("server.port"),
+            env.getActiveProfiles());
     }
 
-    @Bean
-    @Profile({"docker", "cloud", "development"})
-    CommandLineRunner commandLineRunner(DatabaseInitializer databaseInitializer) {
-        return args -> {
-            // Initialize the database for end to end integration testing
-            databaseInitializer.populate();
-        };
-    }
-
-    @Component
-    public static class CustomizedRestMvcConfiguration extends RepositoryRestConfigurerAdapter {
-
-        @Override
-        public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-            config.setBasePath("/api");
-        }
-    }
 }
 

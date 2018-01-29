@@ -1,9 +1,14 @@
-spring.profiles.active: development
+spring:
+  profiles:
+    active: dev
+  data:
+    rest:
+      basePath: /api
 ---
 spring:
-  profiles: development
+  profiles: dev
   neo4j:
-    host: ${SPRING_NEO4J_HOST:192.168.99.100}
+    host: ${SPRING_NEO4J_HOST:localhost}
     port: ${SPRING_NEO4J_PORT:7474}
 eureka:
   instance:
@@ -12,7 +17,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     service-url:
-      defaultZone: http://192.168.99.100:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 ---
 spring:
   profiles: docker
@@ -31,7 +36,7 @@ eureka:
 spring:
   profiles: test
   neo4j:
-    host: ${SPRING_NEO4J_HOST:192.168.99.101}
+    host: ${SPRING_NEO4J_HOST:localhost}
     port: ${SPRING_NEO4J_PORT:7474}
 eureka:
   client:
