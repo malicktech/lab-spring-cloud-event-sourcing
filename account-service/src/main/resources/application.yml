@@ -1,21 +1,24 @@
 spring:
   profiles:
-    active: development
+    active: dev
+  data:
+    rest:
+      basePath: /api
 ---
 spring:
-  profiles: development
+  profiles: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/dev
-    username: root
-    password: dbpass
-    initialize: false
+    url: jdbc:h2:mem:dev;DB_CLOSE_DELAY=-1
+    username: localdev
+    password:
+    initialize: true
 security:
   oauth2:
     resource:
       userInfoUri: http://localhost:8181/uaa/user
     client:
       client-id: acme
-      access-token-uri: http://127.0.0.1:8787
+      access-token-uri: http://localhost:8787
 eureka:
   instance:
     prefer-ip-address: true
