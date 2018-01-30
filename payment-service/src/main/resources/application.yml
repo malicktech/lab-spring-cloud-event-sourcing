@@ -3,7 +3,7 @@ spring:
     active: test
 ---
 spring:
-  profiles: development
+  profiles: dev
   redis:
     host: localhost
     port: 6379

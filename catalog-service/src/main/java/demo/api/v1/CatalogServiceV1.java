@@ -30,7 +30,7 @@ public class CatalogServiceV1 {
         Catalog catalog;
 
         CatalogInfo activeCatalog = catalogInfoRepository.findCatalogByActive(true);
-
+System.out.println(activeCatalog.toString());
         catalog = restTemplate.getForObject(String.format("http://inventory-service/api/catalogs/search/findCatalogByCatalogNumber?catalogNumber=%s",
                 activeCatalog.getCatalogId()), Catalog.class);
 

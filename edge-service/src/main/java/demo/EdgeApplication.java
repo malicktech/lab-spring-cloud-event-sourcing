@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -16,20 +17,13 @@ import org.springframework.core.env.Environment;
 import demo.config.DefaultProfileUtil;
 
 @SpringBootApplication
-@EnableEurekaClient
+@EnableDiscoveryClient
 @EnableZuulProxy
-@EnableZuulServer
 @EnableHystrix
 public class EdgeApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(EdgeApplication.class);
-
-    private final Environment env;
-
-    public EdgeApplication(Environment env) {
-        this.env = env;
-    }
-    
+   
     public static void main(String[] args) throws UnknownHostException {        
         SpringApplication app = new SpringApplication(EdgeApplication.class);
         DefaultProfileUtil.addDefaultProfile(app);

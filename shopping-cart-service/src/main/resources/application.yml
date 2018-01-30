@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: dev
 ---
 spring:
   profiles: cloud
@@ -13,7 +13,7 @@ security:
   enable-csrf: false
 ---
 spring:
-  profiles: development
+  profiles: dev
   datasource:
     url: jdbc:mysql://192.168.99.100:3306/dev
     username: root

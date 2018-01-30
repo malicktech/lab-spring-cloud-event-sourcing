@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-@Profile({ "docker", "cloud", "development" })
+@Profile({ "docker", "cloud", "dev" })
 public class DatabaseInitializer implements CommandLineRunner {
 
 	private final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
@@ -56,6 +56,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 		logger.info("Loading data...");
 
+		System.out.println("LOAD DATA ====================================================== ");
 		// neo4jConfiguration.getSession().query(
 		// "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r;", new HashMap<>())
 		// .queryResults();

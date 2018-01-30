@@ -452,8 +452,8 @@ contentApp.controller('UpdateCartCtrl', ['$rootScope', '$scope', '$http', '$loca
 
 contentApp.controller('ProductItemCtrl', ['$scope', '$routeParams', '$http',
     function ($scope, $routeParams, $http) {
-        $scope.productItemUrl = '/api/catalog/v1/products/' + $routeParams.productId;
-        $scope.productsUrl = '/api/catalog/v1/catalog';
+        $scope.productItemUrl = '/catalog/v1/products/' + $routeParams.productId;
+        $scope.productsUrl = '/catalog/v1/catalog';
         $scope.products = [];
 
         $scope.$on('logout', function (event, msg) {
