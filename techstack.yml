@@ -1,0 +1,186 @@
+repo_name: malicktech/lab-spring-cloud-event-sourcing
+report_id: a46f56cc5991353763f3814e9ae2e92d
+version: 0.1
+repo_type: Public
+timestamp: '2024-03-01T22:43:55+00:00'
+requested_by: malicktech
+provider: github
+branch: dev
+detected_tools_count: 15
+tools:
+- name: CSS 3
+  description: The latest evolution of the Cascading Style Sheets language
+  website_url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
+- name: Java
+  description: A concurrent, class-based, object-oriented, language specifically designed
+    to have as few implementation dependencies as possible
+  website_url: https://www.java.com
+  version: '1.8'
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/995/K85ZWV2F.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/pom.xml
+  detection_source: Repo Metadata
+  last_updated_by: Kenny Bastani
+  last_updated_on: 2016-03-25 22:21:44.000000000 Z
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
+- name: SQL
+  description: It is a domain-specific language used in programming
+  website_url: https://en.wikipedia.org/wiki/SQL
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/2271/default_068d33483bba6b81ee13fbd4dc7aab9780896a54.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/account-service/src/main/resources/data.sql
+  detection_source: account-service/src/main/resources/data.sql
+  last_updated_by: Kenny Bastani
+  last_updated_on: 2016-03-31 06:03:59.000000000 Z
+- name: Apache FreeMarker
+  description: A free Java-based template engine
+  website_url: http://freemarker.incubator.apache.org/index.html
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Java Tools
+  image_url: https://img.stackshare.io/service/4456/ymCgaIO0_400x400.jpg
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
+- name: Cloud DB for Mysql
+  description: Easily setup and manage the MySQL database service
+  website_url: https://www.ncloud.com/product/database/cloudDbMysql
+  open_source: false
+  hosted_saas: true
+  category: Data Stores
+  sub_category: SQL Database as a Service
+  image_url: https://img.stackshare.io/service/21275/default_078eb0ae2b56280a937ed073a3ba4332291f9ba8.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Barry Commins
+  last_updated_on: 2016-05-03 21:53:59.000000000 Z
+- name: MongoDB
+  description: The database for giant ideas
+  website_url: http://www.mongodb.com/
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1030/leaf-360x360.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Barry Commins
+  last_updated_on: 2016-05-03 21:53:59.000000000 Z
+- name: MySQL
+  description: The world's most popular open source database
+  website_url: http://www.mysql.com
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1025/logo-mysql-170x170.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Kenny Bastani
+  last_updated_on: 2016-03-28 20:01:36.000000000 Z
+- name: Neo4j
+  description: The world’s leading Graph Database
+  website_url: http://www.neo4j.com/
+  license: GPL-3.0
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Graph Databases
+  image_url: https://img.stackshare.io/service/1482/FbkjM42a.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Barry Commins
+  last_updated_on: 2016-05-03 21:53:59.000000000 Z
+- name: Redis
+  description: Open source (BSD licensed), in-memory data structure store
+  website_url: http://redis.io/
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: In-Memory Databases
+  image_url: https://img.stackshare.io/service/1031/default_cbce472cd134adc6688572f999e9122b9657d4ba.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Barry Commins
+  last_updated_on: 2016-05-03 21:53:59.000000000 Z
+- name: Docker
+  description: Enterprise Container Platform for High-Velocity Innovation.
+  website_url: https://www.docker.com/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Virtual Machine Platforms & Containers
+  image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
+- name: Apache Camel
+  description: A versatile open source integration framework
+  website_url: https://camel.apache.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Platform as a Service
+  image_url: https://img.stackshare.io/service/3276/xWt1RFo6_400x400.jpg
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/account-service/src/main/resources/application.yml
+  detection_source: account-service/src/main/resources/application.yml
+  last_updated_by: Kenny Bastani
+  last_updated_on: 2016-03-25 22:21:44.000000000 Z
+- name: Mongo
+  description: Heroku provides services and tools to build, run, and scale web applications.
+    Follow @herokustatus for platform updates. A @salesforce company.
+  website_url: http://wedesignapps.herokuapp.com
+  open_source: false
+  hosted_saas: false
+  image_url: https://img.stackshare.io/service/3519/3wgIDj3j_normal.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing/blob/dev/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: Barry Commins
+  last_updated_on: 2016-05-03 21:53:59.000000000 Z
+- name: Shell
+  description: A shell is a text-based terminal, used for manipulating programs and
+    files. Shell scripts typically manage program execution.
+  website_url: https://en.wikipedia.org/wiki/Shell_script
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/malicktech/lab-spring-cloud-event-sourcing
+  detection_source: Repo Metadata
